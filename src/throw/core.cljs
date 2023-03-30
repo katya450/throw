@@ -48,13 +48,13 @@
 (defn home-page []
   (fn []
     [:span.main
-     [:h1 "Throw some dice"]
+     [:h1 "Throw!"]
      [:div
       [:input {:type :text
                :value @dice
                :on-change #(reset! dice (.-value (.-target %)))}]]
      [:button {:type "submit"
-               :on-click #(parse-and-swap @dice)} "Throw!"]
+               :on-click #(parse-and-swap @dice)} "Go!"]
      [:p "The result: " @result]]))
 
 ;; -------------------------

@@ -7,6 +7,9 @@ body {
   font-size: 1.125em;
   color: #333;
   line-height: 1.5em;
+  background-color: rgb(31, 30, 30);
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 h1, h2, h3 {
@@ -31,4 +34,14 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+input {
+  font-size: x-large;
+}
+
+#app {
+  padding: 30px;
+  border-radius: 10px;
+  background-color: rgb(188, 187, 187);
 }
