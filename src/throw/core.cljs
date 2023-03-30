@@ -8,7 +8,7 @@
 ;; Views
 
 (def dice (r/atom ""))
-(def result (r/atom ""))
+(def result (r/atom 0))
 
 (defn throw-one-die [times sides]
   (* times (+ 1 (rand-int sides))))
@@ -24,7 +24,6 @@
   (boolean (re-matches #"^\d$" char)))
 
 (defn parse-dice [dice]
-  (println dice)
   (let [dice-split (str/split dice #"")
         final-state (reduce
                      (fn [acc, char]
@@ -36,10 +35,15 @@
                      {:current "" :previous []}
                      dice-split)]
    ;; final-state ;;; {:current "444", :previous ["2" "-11"]}
-    (str (conj (:previous final-state) (:current final-state))))) ;; for now put this in str so that it doesnt think it's a html tag
+    (conj (:previous final-state) (:current final-state))))
     
+(defn calculate [throw]
+  (reduce + (map int throw)))
+
 (defn parse-and-swap [dice]
-  (swap! result #(parse-dice dice)))
+  (let [dice-parsed (parse-dice dice)
+        throw-calculated (calculate dice-parsed)]
+    (reset! result throw-calculated)))
 
 (defn home-page []
   (fn []
