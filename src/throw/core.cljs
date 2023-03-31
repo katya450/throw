@@ -7,23 +7,21 @@
 ;; -------------------------
 ;; Views
 
-(def dice (r/atom ""))
+(def input (r/atom ""))
 (def result (r/atom 0))
 
-(defn throw-one-die [times sides]
-  (* times (+ 1 (rand-int sides))))
-
-;; (defn parse-dice [dice]
-;;   (println dice)
-;;   (let [;dice-thrown (first (str/split throw #"[+-]")) ;; supports only 1 die now, think about this later
-;;         times (first (str/split dice #"d"))
-;;         sides (last (str/split dice #"d"))]
-;;     (swap! result #(throw-one-die times sides))))
+(defn throw-one-die [die]
+  (let [times (first (str/split die #"d"))
+        sides (last (str/split die #"d"))]
+    (* times (+ 1 (rand-int sides)))))
 
 (defn digit? [char]
   (boolean (re-matches #"^\d$" char)))
 
-(defn parse-dice [dice]
+(defn die? [maybe-die]
+  (boolean (re-matches #"^-?\d{1,3}d\d{1,3}" maybe-die)))
+
+(defn parse-input [dice]
   (let [dice-split (str/split dice #"")
         final-state (reduce
                      (fn [acc, char]
@@ -31,18 +29,23 @@
                          (or (= "d" char) (digit? char)) {:current (str (:current acc) char) :previous (:previous acc)}
                          (= "+" char) {:current "" :previous (conj (:previous acc) (:current acc))}
                          (= "-" char) {:current "-" :previous (conj (:previous acc) (:current acc))}
-                         :else acc))
+                         :else acc)) ;; should maybe throw something with "2e8"? right now it just handles it as num
                      {:current "" :previous []}
                      dice-split)]
-   ;; final-state ;;; {:current "444", :previous ["2" "-11"]}
     (conj (:previous final-state) (:current final-state)))) ;; ["1d8" "4" "3d20" "-1d4"]
 
 (defn calculate [throw]
   (reduce + (map int throw)))
 
-(defn parse-and-swap [dice]
-  (let [dice-parsed (parse-dice dice)
-        throw-calculated (calculate dice-parsed)]
+(defn count-dice [input-dice]
+  (map #(throw-one-die %) input-dice))
+
+(defn parse-and-swap [input]
+  (let [input-parsed (parse-input input) ;; this could be a ->>
+        dice-thrown (vec (count-dice (filterv die? input-parsed))) ;; this is stupid.
+        just-numbers (map int (filterv #(not= die? %) input-parsed)) ;; this is also stupid.
+        throw-parsed (concat dice-thrown just-numbers)
+        throw-calculated (calculate throw-parsed)] 
     (reset! result throw-calculated)))
 
 (defn home-page []
