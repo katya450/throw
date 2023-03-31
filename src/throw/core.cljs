@@ -28,15 +28,15 @@
         final-state (reduce
                      (fn [acc, char]
                        (cond
-                         (digit? char) {:current (str (:current acc) char) :previous (:previous acc)}
+                         (or (= "d" char) (digit? char)) {:current (str (:current acc) char) :previous (:previous acc)}
                          (= "+" char) {:current "" :previous (conj (:previous acc) (:current acc))}
                          (= "-" char) {:current "-" :previous (conj (:previous acc) (:current acc))}
                          :else acc))
                      {:current "" :previous []}
                      dice-split)]
    ;; final-state ;;; {:current "444", :previous ["2" "-11"]}
-    (conj (:previous final-state) (:current final-state))))
-    
+    (conj (:previous final-state) (:current final-state)))) ;; ["1d8" "4" "3d20" "-1d4"]
+
 (defn calculate [throw]
   (reduce + (map int throw)))
 
@@ -51,10 +51,10 @@
      [:h1 "Throw!"]
      [:div
       [:input {:type :text
-               :value @dice
-               :on-change #(reset! dice (.-value (.-target %)))}]]
+               :value @input
+               :on-change #(reset! input (.-value (.-target %)))}]]
      [:button {:type "submit"
-               :on-click #(parse-and-swap @dice)} "Go!"]
+               :on-click #(parse-and-swap @input)} "Go!"]
      [:p "The result: " @result]]))
 
 ;; -------------------------
