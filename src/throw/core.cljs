@@ -11,7 +11,8 @@
 (def result (r/atom 0))
 
 (defn throw-one-die [die]
-  (let [times (first (str/split die #"d"))
+  (let [count (first (str/split die #"d"))
+        times (if (= "" count) 1 count)
         sides (last (str/split die #"d"))]
     (* times (+ 1 (rand-int sides)))))
 
@@ -19,9 +20,8 @@
   (boolean (re-matches #"^\d$" char)))
 
 (defn die? [maybe-die]
-  (boolean (re-matches #"^-?\d{1,3}d\d{1,3}" maybe-die)))
+  (boolean (re-matches #"^-?(\d{1,3})?d\d{1,3}" maybe-die))) ;; should it be case-insensitive?
 
-;; in case of a special case, one can (BUT SHOULD HIM?) also give one die with "d6" and NOT "1d6"
 (defn parse-input [dice]
   (let [dice-split (str/split dice #"")
         final-state (reduce
