@@ -56,10 +56,10 @@
 (def throwable-dice-sides [4 6 8 10 12 20 100])
 
 (defn die-button [d]
-  [:div {:class "die-img"} d])
+  ^{:key d} [:div {:class "die-img"} d])
 
 (defn dice []
-  [:div {:class "die-container"} 
+  [:div {:class "die-container"}
    (map #(die-button %) throwable-dice-sides)])
 
 (defn home-page []
