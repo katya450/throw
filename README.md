@@ -4,6 +4,13 @@
 npm install
 npx shadow-cljs watch app
 ```
+
+Or to start this on command line and hook it to a nREPL-port in Calva:
+
+```
+npx shadow-cljs -d cider/cider-nrepl:0.28.5 watch :app  
+```
+
 start a ClojureScript REPL
 ```
 npx shadow-cljs browser-repl
