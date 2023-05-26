@@ -15,6 +15,14 @@ start a ClojureScript REPL
 ```
 npx shadow-cljs browser-repl
 ```
+
+### Test
+
+```
+npx shadow-cljs compile test
+node target/test/test.js
+```
+
 ### Building for production
 
 ```

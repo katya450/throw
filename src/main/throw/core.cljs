@@ -12,7 +12,10 @@
 
 (defn throw-one-die [die]
   (let [count (first (str/split die #"d"))
-        times (if (= "" count) 1 count)
+        times (case count
+                "" 1
+                "-" -1
+                count)
         sides (last (str/split die #"d"))]
     (* times (+ 1 (rand-int sides)))))
 
