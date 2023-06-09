@@ -59,7 +59,9 @@
 (def throwable-dice-sides [4 6 8 10 12 20 100])
 
 (defn die-button [d]
-  ^{:key d} [:div {:class "die-img"} d])
+  ^{:key d} [:button {
+                      :class "die-img" 
+                      :on-click #(reset! input (str @input (str "+" d)))} d])
 
 (defn dice []
   [:div {:class "die-container"}
