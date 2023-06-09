@@ -23,10 +23,10 @@
   (boolean (re-matches #"^\d$" char)))
 
 (defn die? [maybe-die]
-  (boolean (re-matches #"^-?(\d{1,3})?d\d{1,3}" maybe-die))) ;; should it be case-insensitive?
+  (boolean (re-matches #"^-?(\d{1,3})?d\d{1,3}" maybe-die)))
 
 (defn parse-input [dice]
-  (let [dice-split (str/split dice #"")
+  (let [dice-split (str/split (str/lower-case dice) #"")
         final-state (reduce
                      (fn [acc, char]
                        (cond
