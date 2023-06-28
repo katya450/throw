@@ -44,6 +44,8 @@
 (defn throw-dice [input-dice]
   (map #(throw-one-die %) input-dice))
 
+;; Some fn should check there's no +- -+ -- ++ stuff! 
+
 ;; input-parsed: map over this, with a fn that deducts which fn to use for it AND returns an anonym fn with no params, 
 ;; then this all return vec of fns 
 ;; fex [throw fn-anynym-no-params throw ]
@@ -59,9 +61,10 @@
 (def throwable-dice-sides [4 6 8 10 12 20 100])
 
 (defn die-button [d]
-  ^{:key d} [:button {
-                      :class "die-img" 
-                      :on-click #(reset! input (str @input (str "+" d)))} d])
+  ^{:key d} [:button 
+             {:class "die-img"
+              :on-click #(reset! input (str @input (str "+1d" d)))}
+             [:img {:src (str "images/d" d ".jpeg") :width "60px"}] d])
 
 (defn dice []
   [:div {:class "die-container"}
@@ -70,15 +73,19 @@
 (defn home-page []
   (fn []
     [:span.main
-     [:h1 "Throw!"]
+     ;;[:h1 "Throw!"]
      [dice]
      [:div
       [:input {:type :text
                :value @input
                :on-change #(reset! input (.-value (.-target %)))}]]
      [:button {:type "submit"
-               :on-click #(parse-and-swap @input)} "Go!"]
-     [:p "The result: " @result]]))
+               :on-click #(parse-and-swap @input)} "Throw!"]
+     [:button {:type "submit"
+               :on-click #(reset! input "")} "Reset"]
+     [:p "The result is " @result]]))
+
+
 
 ;; -------------------------
 ;; Initialize app
