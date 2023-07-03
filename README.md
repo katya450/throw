@@ -1,3 +1,6 @@
+### Throw?
+
+Imagine a situation that you're starting a roleplaying session, but forgot your dice home! This tiny applicaton is here to fix it, and let you throw virtual dice. Eventually. As a hobby project this is, this mainly progresses only when I haven't had enough Clojure to write or think on the daily job.
 
 ### Development mode
 ```

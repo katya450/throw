@@ -9,6 +9,7 @@
 
 (def input (r/atom ""))
 (def result (r/atom 0))
+(def times-clicked (r/atom 0))
 
 (defn throw-one-die [die]
   (let [count (first (str/split die #"d"))
@@ -33,7 +34,7 @@
                          (or (= "d" char) (digit? char)) {:current (str (:current acc) char) :previous (:previous acc)}
                          (= "+" char) {:current "" :previous (conj (:previous acc) (:current acc))}
                          (= "-" char) {:current "-" :previous (conj (:previous acc) (:current acc))}
-                         :else acc)) ;; should maybe throw something with "2e8"? right now it just handles it as num
+                         :else acc)) ;; should maybe throw an error or something with "2e8"? right now it just handles it as num
                      {:current "" :previous []}
                      dice-split)]
     (conj (:previous final-state) (:current final-state)))) ;; ["1d8" "4" "3d20" "-1d4"]
@@ -60,10 +61,14 @@
 
 (def throwable-dice-sides [4 6 8 10 12 20 100])
 
+(defn add-button-die [d]
+  (swap! times-clicked inc)
+  (reset! input (str (str @times-clicked "d" d)))) ;; breaks regular input, fix
+
 (defn die-button [d]
-  ^{:key d} [:button 
+  ^{:key d} [:button
              {:class "die-img"
-              :on-click #(reset! input (str @input (str "+1d" d)))}
+              :on-click #(add-button-die d)}
              [:img {:src (str "images/d" d ".jpeg") :width "60px"}] d])
 
 (defn dice []
@@ -73,7 +78,6 @@
 (defn home-page []
   (fn []
     [:span.main
-     ;;[:h1 "Throw!"]
      [dice]
      [:div
       [:input {:type :text
@@ -84,8 +88,6 @@
      [:button {:type "submit"
                :on-click #(reset! input "")} "Reset"]
      [:p "The result is " @result]]))
-
-
 
 ;; -------------------------
 ;; Initialize app

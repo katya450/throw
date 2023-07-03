@@ -1,0 +1,6 @@
+- double clicking a die makes it 1d6 -> 2d6
+- Prettify mobile view
+- Error handling
+    - duplicate stuff like +- -+ -- ++ 
+    - letters other than d
+    - pretty much anything not parseable really
