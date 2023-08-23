@@ -1,7 +1,8 @@
 {:source-paths ["src/main" "src/test"]
  :dependencies [[binaryage/devtools "1.0.6"]
                 [nrepl "1.0.0"]
-                [reagent "1.1.1"]]
+                [reagent "1.1.1"]
+                [org.clojure/clojurescript "1.11.4"]]
  :builds       {:app {:target     :browser
                       :output-dir "docs"
                       :asset-path "."

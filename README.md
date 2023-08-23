@@ -19,6 +19,20 @@ start a ClojureScript REPL
 npx shadow-cljs browser-repl
 ```
 
+How to JS-interop-REPL in Calva?
+
+```
+1. Run the command Calva: Start a Project REPL and Connect (a.k.a. Jack-in)
+2. Select project type shadow-cljs
+3. Select to start the build :app
+4. Select to connect to the build :app
+5. Wait for the build to complete
+6. Open http://localhost:3003/ in the browser
+7. Open core.cljs file and load it in the REPL: Calva: Load/Evaluate Current File and Dependencies
+
+From https://calva.io/shadow-cljs/
+```
+
 ### Test
 
 ```
